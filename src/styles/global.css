@@ -53,6 +53,13 @@ a {
   font-weight: 700;
 }
 
+.brand-lockup {
+  width: min(760px, 90vw);
+  height: auto;
+  display: block;
+  margin: 0 auto 0.4rem;
+}
+
 h1 {
   margin: 0.7rem 0 0;
   font-size: clamp(2rem, 7vw, 4rem);
