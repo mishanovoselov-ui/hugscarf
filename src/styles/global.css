@@ -31,6 +31,7 @@
   background: #fff;
   overflow: hidden;
   box-sizing: border-box;
+  position: relative;
 }
 
 .hero-video {
@@ -40,4 +41,12 @@
   object-fit: cover;
   object-position: center;
   background: #fff;
+}
+
+@media (max-width: 768px) {
+  .video-shell {
+    flex: none;
+    height: calc(100svh - 96px);
+    height: calc(100dvh - 96px);
+  }
 }
