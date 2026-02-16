@@ -8,35 +8,11 @@ import '../styles/global.css';
   description="HugScarf is launching soon. Join the waitlist for early access and partner updates."
 >
   <main class="splash">
-    <div class="video-shell" aria-hidden="true">
-      <video class="hero-video" autoplay muted loop playsinline>
+    <div class="video-shell">
+      <video class="hero-video" autoplay muted loop playsinline controls>
         <source src="/doc_2026-02-16_15-44-51.mp4" type="video/mp4" />
+        Your browser does not support the video tag.
       </video>
     </div>
-
-    <section class="container splash-wrap surface-card">
-      <img
-        class="brand-lockup"
-        src="/85C6CD70-D6D9-4432-A8D2-5FF0C0395941.png"
-        alt="Hugscurf logo"
-      />
-      <h1>Coming Soon</h1>
-      <p class="lead">
-        Transformable comfort for flights, power naps, and daily travel.
-        Join the waitlist for first access.
-      </p>
-
-      <form
-        class="lead-form"
-        action="https://formspree.io/f/REPLACE_WITH_YOUR_FORM_ID"
-        method="POST"
-      >
-        <label for="email" class="sr-only">Email</label>
-        <input id="email" name="email" type="email" placeholder="Enter your email" required />
-        <button class="btn btn-primary" type="submit">Join Waitlist</button>
-      </form>
-
-      <p class="meta">For partnerships: <a href="mailto:hello@hugscarf.co">hello@hugscarf.co</a></p>
-    </section>
   </main>
 </BaseLayout>
