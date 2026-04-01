@@ -1,7 +1,7 @@
 ---
 const {
-  title = 'HugScarf',
-  description = 'Ultra-soft scarf for everyday warmth and comfort.'
+  title = 'HugScurf',
+  description = 'HugScurf — модульный travel-аксессуар: ортопедическая подушка, маска для сна и встроенные наушники в одном. B2B платформа для брендового мерча в аэропортах.'
 } = Astro.props;
 ---
 <!doctype html>
@@ -11,6 +11,13 @@ const {
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{title}</title>
     <meta name="description" content={description} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://hugscarf.co" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
