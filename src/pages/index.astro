@@ -103,10 +103,19 @@ const botField = mailchimpUrl ? `b_${mailchimpUrl.searchParams.get('u')}_${mailc
                 clearTimeout(timer); done();
                 if (res && res.result === 'success') {
                   form.reset();
-                  show('Almost there! Check your inbox and confirm your email to get HugScarf updates.');
+                  // Mailchimp says "confirm" only when double opt-in is on; otherwise the contact is subscribed immediately.
+                  const needsConfirm = /confirm/i.test(String(res.msg || ''));
+                  show(needsConfirm
+                    ? 'Almost there! Check your inbox and click the link to confirm your subscription.'
+                    : 'You’re on the list — thank you! We’ll email you HugScarf news and let you know when it’s available.');
                 } else {
                   const msg = String((res && res.msg) || '').replace(/<[^>]*>/g, '').replace(/^\d+\s*-\s*/, '');
-                  show(/already subscribed/i.test(msg) ? 'You’re already on the list. Thank you!' : (msg || 'Something went wrong. Please try again.'), !/already subscribed/i.test(msg));
+                  const already = /already subscribed/i.test(msg);
+                  const tooMany = /too many/i.test(msg);
+                  show(already ? 'You’re already on the list. Thank you!'
+                    : tooMany ? 'We’ve received a lot of signups from this address recently. Please try again in a few minutes.'
+                    : /email/i.test(msg) ? 'Please enter a valid email address.'
+                    : 'Something went wrong. Please try again in a moment.', !already);
                 }
               };
               tag.onerror = () => { clearTimeout(timer); done(); show('Something went wrong. Please try again in a moment.', true); };
