@@ -2,10 +2,11 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import '../styles/global.css';
 
-// Public embed configuration from the existing HugScarf Waitlist form.
-const defaultFormAction = 'https://svetadorosheva.us12.list-manage.com/subscribe/post?u=1fa28948c784bc6993b3c1f62&id=a81d93b33e&f_id=007d0de9f0';
+// Public embed configuration for the dedicated HugScarf Mailchimp audience.
+const defaultFormAction = 'https://svetadorosheva.us12.list-manage.com/subscribe/post?u=1fa28948c784bc6993b3c1f62&id=ed98474490&f_id=008011e9f0';
+const gdprEmailField = 'gdpr[93365]';
 const subscribeEndpoint = (import.meta.env.PUBLIC_MAILCHIMP_FORM_ACTION ?? defaultFormAction).trim();
-const subscribeTags = (import.meta.env.PUBLIC_MAILCHIMP_TAGS ?? (subscribeEndpoint === defaultFormAction ? '10403120' : '')).trim();
+const subscribeTags = (import.meta.env.PUBLIC_MAILCHIMP_TAGS ?? '').trim();
 let mailchimpUrl: URL | undefined;
 try {
   const url = new URL(subscribeEndpoint);
@@ -69,7 +70,11 @@ const botField = mailchimpUrl ? `b_${mailchimpUrl.searchParams.get('u')}_${mailc
           {signupReady && <div class="subscribe-bot-field" aria-hidden="true">
             <input type="text" name={botField} tabindex="-1" autocomplete="off" value="" />
           </div>}
-          <p class="subscribe-note">By subscribing, you agree to receive email updates about HugScarf.</p>
+          {signupReady && <label class="subscribe-consent" for="subscriber-consent">
+            <input id="subscriber-consent" type="checkbox" name={gdprEmailField} value="Y" required />
+            <span>Yes, send me HugScarf project updates by email.</span>
+          </label>}
+          <p class="subscribe-note">You can unsubscribe at any time using the link in our emails. We use Mailchimp to send updates; by subscribing you acknowledge that your email will be processed by Mailchimp (<a href="https://mailchimp.com/legal/terms" rel="noopener" target="_blank">terms</a>).</p>
           {!signupReady && <p class="subscribe-note" role="status">Signups will open soon. Please check back.</p>}
           {signupReady && <p class="subscribe-status" role="status" aria-live="polite" hidden></p>}
         </form>

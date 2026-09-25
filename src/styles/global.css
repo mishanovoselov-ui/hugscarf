@@ -116,3 +116,5 @@
 .content-block a:focus-visible, summary:focus-visible { outline: 3px solid var(--color-ocean-600); outline-offset: 4px; }
 .subscribe-status { margin: 16px 0 0; font-weight: 600; }
 .subscribe-status.is-error { color: #b3261e; }
+.subscribe .subscribe-consent { display: flex; gap: 10px; align-items: flex-start; margin: 16px 0 0; font-weight: 500; text-align: left; cursor: pointer; }
+.subscribe .subscribe-consent input { flex: none; width: 18px; height: 18px; margin: 3px 0 0; padding: 0; }
