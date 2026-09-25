@@ -1,0 +1,16 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import '../styles/global.css';
+---
+<BaseLayout title="You’re subscribed | HugScarf" description="Your subscription to HugScarf project updates is confirmed." noindex={true}>
+  <main class="splash">
+    <header class="top-header">
+      <a href="/"><img class="header-logo" src="/85C6CD70-D6D9-4432-A8D2-5FF0C0395941.png" alt="HugScarf logo" /></a>
+    </header>
+    <section class="content-block" aria-labelledby="subscribed-title">
+      <h1 id="subscribed-title">You’re on the list — thank you!</h1>
+      <p>Your subscription is confirmed. We’ll send you HugScarf project news and let you know as soon as it’s available.</p>
+      <a class="text-link" href="/">Back to HugScarf</a>
+    </section>
+  </main>
+</BaseLayout>

@@ -71,7 +71,47 @@ const botField = mailchimpUrl ? `b_${mailchimpUrl.searchParams.get('u')}_${mailc
           </div>}
           <p class="subscribe-note">By subscribing, you agree to receive email updates about HugScarf.</p>
           {!signupReady && <p class="subscribe-note" role="status">Signups will open soon. Please check back.</p>}
+          {signupReady && <p class="subscribe-status" role="status" aria-live="polite" hidden></p>}
         </form>
+        {signupReady && <script is:inline>
+          (() => {
+            const form = document.querySelector('.subscribe form');
+            if (!form || !form.action) return;
+            const status = form.querySelector('.subscribe-status');
+            const button = form.querySelector('button[type="submit"]');
+            const show = (text, isError) => {
+              status.hidden = false;
+              status.textContent = text;
+              status.classList.toggle('is-error', Boolean(isError));
+            };
+            form.addEventListener('submit', (event) => {
+              event.preventDefault();
+              if (!form.reportValidity()) return;
+              const url = new URL(form.action.replace('/subscribe/post', '/subscribe/post-json'));
+              new FormData(form).forEach((value, key) => url.searchParams.set(key, value));
+              const cb = 'hsMc' + Date.now();
+              url.searchParams.set('c', cb);
+              const tag = document.createElement('script');
+              const done = () => { delete window[cb]; tag.remove(); button.disabled = false; };
+              const timer = setTimeout(() => { done(); show('Something went wrong. Please try again in a moment.', true); }, 12000);
+              window[cb] = (res) => {
+                clearTimeout(timer); done();
+                if (res && res.result === 'success') {
+                  form.reset();
+                  show('Almost there! Check your inbox and confirm your email to get HugScarf updates.');
+                } else {
+                  const msg = String((res && res.msg) || '').replace(/<[^>]*>/g, '').replace(/^\d+\s*-\s*/, '');
+                  show(/already subscribed/i.test(msg) ? 'You’re already on the list. Thank you!' : (msg || 'Something went wrong. Please try again.'), !/already subscribed/i.test(msg));
+                }
+              };
+              tag.onerror = () => { clearTimeout(timer); done(); show('Something went wrong. Please try again in a moment.', true); };
+              tag.src = url.toString();
+              button.disabled = true;
+              show('Subscribing…');
+              document.body.appendChild(tag);
+            });
+          })();
+        </script>}
       </div>
     </section>
     <section class="content-block" aria-labelledby="idea-title">

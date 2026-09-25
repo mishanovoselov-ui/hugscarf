@@ -114,3 +114,5 @@
 .questions summary { cursor: pointer; font-weight: 700; font-size: 18px; }
 .questions details p { margin: 14px 0 0; font-size: 16px; }
 .content-block a:focus-visible, summary:focus-visible { outline: 3px solid var(--color-ocean-600); outline-offset: 4px; }
+.subscribe-status { margin: 16px 0 0; font-weight: 600; }
+.subscribe-status.is-error { color: #b3261e; }
