@@ -1,0 +1,24 @@
+# HugScarf
+
+> HugScarf is a travel pillow and a scarf in one piece: a memory-foam neck core with modular plush character arms that wrap around the shoulders like a hug.
+
+HugScarf is a project by Michael Novoselov.
+Copyright © Michael Novoselov.
+
+Canonical website: https://hugscarf.co/
+
+## Product
+- Travel pillow and scarf in one piece, designed for long-haul flights and everyday rest.
+- Memory-foam core supports the neck; soft plush character arms wrap around the shoulders.
+- Modular: character arms are interchangeable, so the look can change with mood, outfit or destination.
+- Designed to be worn openly, as a fashion accessory in the terminal and a pillow in the seat.
+- Visual style: crocheted and knitted textures, bright pastel colours, playful characters.
+
+## Status
+- In development and preparing for launch. HugScarf is not available for purchase yet and the website does not take orders.
+- Final materials, pricing and availability have not been announced.
+- Personalization is planned for the second release: choosing from the HugScarf character collection or creating a custom character from an uploaded image. Uploaded images must be the customer's own or used with rights.
+
+## Links
+- [Home and project updates](https://hugscarf.co/): project overview, email subscription, FAQ.
+- [Brand and creative collaborations](https://hugscarf.co/#partners-title): the project is open to collaborations around licensed character designs and travel accessories.

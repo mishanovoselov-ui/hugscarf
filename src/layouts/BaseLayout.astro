@@ -1,8 +1,20 @@
 ---
 const {
-  title = 'HugScurf',
-  description = 'HugScurf — модульный travel-аксессуар: ортопедическая подушка, маска для сна и встроенные наушники в одном. B2B платформа для брендового мерча в аэропортах.'
+  title = 'HugScarf | The Travel Pillow Scarf That Hugs You',
+  description = 'A travel pillow and a scarf in one: a memory-foam neck core with swappable plush character arms that hug your shoulders. Follow HugScarf’s launch.',
+  noindex = false
 } = Astro.props;
+const canonical = new URL(Astro.url.pathname, Astro.site).href;
+const creator = { '@type': 'Person', '@id': 'https://hugscarf.co/#michael-novoselov', name: 'Michael Novoselov' };
+const schema = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    creator,
+    { '@type': 'Organization', '@id': 'https://hugscarf.co/#organization', name: 'HugScarf', url: 'https://hugscarf.co/', description: 'HugScarf is a travel pillow and a scarf in one piece: a memory-foam neck core with modular plush character arms that wrap around the shoulders like a hug. Currently in development.', slogan: 'The travel pillow scarf that hugs you.' },
+    { '@type': 'WebSite', '@id': 'https://hugscarf.co/#website', name: 'HugScarf', url: 'https://hugscarf.co/', creator: { '@id': creator['@id'] }, copyrightHolder: { '@id': creator['@id'] }, publisher: { '@id': 'https://hugscarf.co/#organization' } },
+    { '@type': 'WebPage', '@id': canonical, url: canonical, name: title, description, creator: { '@id': creator['@id'] }, copyrightHolder: { '@id': creator['@id'] }, isPartOf: { '@id': 'https://hugscarf.co/#website' } }
+  ]
+};
 ---
 <!doctype html>
 <html lang="en">
@@ -11,22 +23,22 @@ const {
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{title}</title>
     <meta name="description" content={description} />
+    <meta name="author" content="Michael Novoselov" />
+    <meta name="copyright" content="© Michael Novoselov" />
+    {noindex && <meta name="robots" content="noindex, follow" />}
+    <link rel="canonical" href={canonical} />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonical} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://hugscarf.co" />
+    <meta property="og:image" content="https://hugscarf.co/og-image.jpg" />
+    <meta property="og:site_name" content="HugScarf" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;500;600;700&display=swap"
-    />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="twitter:image" content="https://hugscarf.co/og-image.jpg" />
+    {!noindex && <script is:inline type="application/ld+json" set:html={JSON.stringify(schema).replace(/</g, '\\u003c')} />}
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;500;600;700&display=swap"><link rel="icon" type="image/x-icon" href="/favicon.ico"><link rel="shortcut icon" href="/favicon.ico"><!-- Google Consent Mode v2: defaults before any tags fire --><!-- Google tag (GA4) --><script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-6WJV7S94E9"></script><!-- Helper: call grantAllConsent() from your cookie banner's accept button --><script is:inline type="module">window.dataLayer=window.dataLayer||[];function a(){dataLayer.push(arguments)}a("consent","default",{ad_storage:"denied",ad_user_data:"denied",ad_personalization:"denied",analytics_storage:"denied",region:["AT","BE","BG","CY","CZ","DE","DK","EE","ES","FI","FR","GR","HR","HU","IE","IT","LT","LU","LV","MT","NL","PL","PT","RO","SE","SI","SK","IS","LI","NO"],wait_for_update:500});a("consent","default",{ad_storage:"granted",ad_user_data:"granted",ad_personalization:"granted",analytics_storage:"granted"});</script><script is:inline type="module">window.dataLayer=window.dataLayer||[];function a(){dataLayer.push(arguments)}a("js",new Date);a("config","G-6WJV7S94E9");</script>
   </head>
-  <body>
-    <slot />
-  </body>
+  <body><slot /></body>
 </html>

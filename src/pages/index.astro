@@ -1,26 +1,107 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import '../styles/global.css';
+
+// Public embed configuration from the existing HugScarf Waitlist form.
+const defaultFormAction = 'https://svetadorosheva.us12.list-manage.com/subscribe/post?u=1fa28948c784bc6993b3c1f62&id=a81d93b33e&f_id=007d0de9f0';
+const subscribeEndpoint = (import.meta.env.PUBLIC_MAILCHIMP_FORM_ACTION ?? defaultFormAction).trim();
+const subscribeTags = (import.meta.env.PUBLIC_MAILCHIMP_TAGS ?? (subscribeEndpoint === defaultFormAction ? '10403120' : '')).trim();
+let mailchimpUrl: URL | undefined;
+try {
+  const url = new URL(subscribeEndpoint);
+  if (url.protocol === 'https:' && url.hostname.endsWith('.list-manage.com') &&
+      url.pathname === '/subscribe/post' && url.searchParams.get('u') && url.searchParams.get('id')) {
+    mailchimpUrl = url;
+  }
+} catch { /* Keep signups disabled until Mailchimp is connected. */ }
+const signupReady = Boolean(mailchimpUrl);
+const botField = mailchimpUrl ? `b_${mailchimpUrl.searchParams.get('u')}_${mailchimpUrl.searchParams.get('id')}` : '';
 ---
 
 <BaseLayout
-  title="HugScarf - Coming Soon"
-  description="HugScarf is launching soon. Join the waitlist for early access and partner updates."
+  title="HugScarf | The Travel Pillow Scarf That Hugs You"
+  description="A travel pillow and a scarf in one: a memory-foam neck core with swappable plush character arms that hug your shoulders. Follow HugScarf’s launch."
 >
   <main class="splash">
     <header class="top-header">
       <img
         class="header-logo"
         src="/85C6CD70-D6D9-4432-A8D2-5FF0C0395941.png"
-        alt="Hugscarf logo"
+        alt="HugScarf logo"
       />
     </header>
 
+    <section class="intro content-block" aria-labelledby="product-title">
+      <p class="eyebrow">HugScarf · In development</p>
+      <h1 id="product-title">The travel pillow scarf that hugs you.</h1>
+      <p>HugScarf is a travel pillow and a scarf in one piece. A memory-foam core supports your neck, and soft plush character arms wrap around your shoulders like a hug. Swap the characters to match your mood, your outfit or your destination.</p>
+      <a class="text-link" href="#subscribe-title">Follow the project ↓</a>
+    </section>
     <div class="video-shell">
-      <video class="hero-video" autoplay muted loop playsinline controls>
+      <video class="hero-video" autoplay muted loop playsinline controls preload="metadata" aria-label="HugScarf concept visualization" aria-describedby="video-description">
         <source src="/doc_2026-02-16_15-44-51.mp4" type="video/mp4" />
         Your browser does not support the video tag.
       </video>
     </div>
+
+    <p id="video-description" class="video-caption">Concept visualization: a character-inspired travel companion with embracing arms.</p>
+
+    <section class="subscribe" aria-labelledby="subscribe-title">
+      <div class="subscribe-content">
+        <h2 id="subscribe-title">Stay in the loop</h2>
+        <p id="subscribe-description">We'll send you all the project updates.</p>
+        <form action={signupReady ? subscribeEndpoint : undefined} method="POST" aria-describedby="subscribe-description">
+          <label for="subscriber-email">Email address</label>
+          <div class="subscribe-fields">
+            <input
+              id="subscriber-email"
+              name="EMAIL"
+              type="email"
+              autocomplete="email"
+              placeholder="you@example.com"
+              required
+              maxlength="254"
+              disabled={!signupReady}
+            />
+            <button type="submit" disabled={!signupReady}>Subscribe</button>
+          </div>
+          {signupReady && subscribeTags && <input type="hidden" name="tags" value={subscribeTags} />}
+          {signupReady && <div class="subscribe-bot-field" aria-hidden="true">
+            <input type="text" name={botField} tabindex="-1" autocomplete="off" value="" />
+          </div>}
+          <p class="subscribe-note">By subscribing, you agree to receive email updates about HugScarf.</p>
+          {!signupReady && <p class="subscribe-note" role="status">Signups will open soon. Please check back.</p>}
+        </form>
+      </div>
+    </section>
+    <section class="content-block" aria-labelledby="idea-title">
+      <h2 id="idea-title">The idea behind HugScarf</h2>
+      <p>It starts with a simple feeling: someone giving you a hug. Long flights are when you need it most, and most travel pillows are purely functional — something you tuck away the moment you land. HugScarf is built to be worn: neck support in the seat, a statement accessory in the terminal, and interchangeable character arms that make each one personal. Final materials, pricing and availability have not yet been announced.</p>
+    </section>
+    <section class="content-block partners" aria-labelledby="partners-title">
+      <h2 id="partners-title">For brands and creative partners</h2>
+      <p>We’re exploring collaborations around licensed character designs and travel accessories. If you’re interested in developing the idea with us, get in touch.</p>
+      <a class="text-link" href="mailto:your@hugscarf.co">Discuss a collaboration</a>
+    </section>
+    <section class="content-block questions" aria-labelledby="questions-title">
+      <h2 id="questions-title">Project questions</h2>
+      <details><summary>What is HugScarf?</summary><p>HugScarf is a travel pillow and a scarf in one piece, designed to feel like a hug. A supportive memory-foam core holds your neck, and soft plush character arms wrap around your shoulders, so you can actually sleep on a long flight instead of just waiting it out. The arms are modular: swap characters to match your mood, your outfit or your destination. It wears like a statement scarf in the terminal and works like a pillow in the seat. It’s comfort you don’t have to hide, and it’s a travel companion that looks like no one else’s.</p></details>
+      <details><summary>Can I buy it now?</summary><p>Not yet. HugScarf is in development and preparing for launch. <a href="#subscribe-title">Subscribe for updates</a> to be first to know when it’s available.</p></details>
+      <details><summary>Can I personalize it?</summary><p>Personalization is planned for the second release. The plan is to let you choose from our character collection or create your own character from an image you upload on our site. Uploaded images will need to be your own or ones you have the rights to use.</p></details>
+      <details><summary>How can I follow the project?</summary><p><a href="#subscribe-title">Subscribe for HugScarf project updates.</a></p></details>
+      <details><summary>How can a brand collaborate?</summary><p><a href="mailto:your@hugscarf.co">Contact the project</a> to discuss a potential collaboration.</p></details>
+    </section>
+    <script is:inline type="application/ld+json" set:html={JSON.stringify({
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      '@id': 'https://hugscarf.co/#faq',
+      mainEntity: [
+        ['What is HugScarf?', 'HugScarf is a travel pillow and a scarf in one piece, designed to feel like a hug. A supportive memory-foam core holds your neck, and soft plush character arms wrap around your shoulders, so you can sleep on a long flight. The arms are modular: swap characters to match your mood, your outfit or your destination. It wears like a statement scarf in the terminal and works like a pillow in the seat.'],
+        ['Can I buy it now?', 'Not yet. HugScarf is in development and preparing for launch. Subscribe for updates on hugscarf.co to be first to know when it is available.'],
+        ['Can I personalize it?', 'Personalization is planned for the second release. The plan is to let you choose from the HugScarf character collection or create your own character from an image you upload on the site. Uploaded images will need to be your own or ones you have the rights to use.'],
+        ['How can I follow the project?', 'Subscribe for HugScarf project updates on hugscarf.co.'],
+        ['How can a brand collaborate?', 'Brands and creative partners can contact the HugScarf project through hugscarf.co to discuss a potential collaboration.']
+      ].map(([q, a]) => ({ '@type': 'Question', name: q, acceptedAnswer: { '@type': 'Answer', text: a } }))
+    })} />
   </main>
 </BaseLayout>
